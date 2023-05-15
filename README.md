@@ -3,19 +3,6 @@ Activity 01 - Course Tools
 
 This activity is intended to be completed in over three class sessions,
 including outside of class preparation work and three class meetings.
-**Do not proceed in this document until you have minimally**:
-
-1.  Completed this short (5-10 minutes) interactive [Markdown
-    tutorial](https://commonmark.org/help/tutorial/).
-2.  Created a free GitHub account if you do not already have one.
-3.  (For Day 2 and 3) Verified that you can login to GVSU’s [RStudio
-    Workbench](https://rstudio.gvsu.edu/). Or (more advanced and I note
-    that I may not be able to assist you with problem solving on your
-    machine), you have installed R, RStudio, and Git on your computer
-    and enabled RStudio and GitHub to communicate. If you choose have R,
-    RStudio, and GitHub setup on your personal computer, I recommend
-    following the directions from [Dr. Jenny Bryan *et
-    al*](https://happygitwithr.com/).
 
 In this repository/directory, you should see six items:
 
@@ -36,7 +23,15 @@ Before doing that, you will first make your own copy of this repository.
 Note that I will refer to “repositories” as “repos” (or a single
 “repository” as a “repo”) for the rest of the semester.
 
-## Task 1: Forking the Repository
+## Day 1
+
+**Do not proceed in this document until you have minimally**:
+
+1.  Completed this short (5-10 minutes) interactive [Markdown
+    tutorial](https://commonmark.org/help/tutorial/).
+2.  Created a free GitHub account if you do not already have one.
+
+### Task 1: Forking the Repository
 
 Read these directions first, then work through them. In this GitHub repo
 (i.e., my repo):
@@ -78,7 +73,7 @@ these with your group members.
 - What was easier about this GitHub method?
 - What was more difficult about this GitHub method?
 
-## Task 2: Exploring a GitHub Repository
+### Task 2: Exploring a GitHub Repository
 
 The last time that I taught STA 518 I had students complete this
 [Preparation](https://github.com/gvsu-sta518/preparation01) that
@@ -131,9 +126,90 @@ them.
 The rest of this `README` document <!--contains--> will contain
 tasks/directions for the next class meetings.
 
-<!-- 
+## Day 2
 
-## Task 3: Exploring RStudio
+**Do not proceed in this document until you have minimally**:
+
+1.  Verified that you can login to GVSU’s [RStudio
+    Workbench](https://rstudio.gvsu.edu/). Or (more advanced and I note
+    that I may not be able to assist you with problem solving on your
+    machine), you have installed R, RStudio, and Git on your computer
+    and enabled RStudio and GitHub to communicate. If you choose have R,
+    RStudio, and GitHub setup on your personal computer, I recommend
+    following the directions from [Dr. Jenny Bryan *et
+    al*](https://happygitwithr.com/).
+2.  Completed [this
+    preparation](https://github.com/gvsu-sta518/preparation02) to
+    connect your RStudio Workbench instance and GitHub so they
+    communicate with one another. Note that this is a preparation that I
+    created for STA 418/518 and am reusing here - the process is the
+    same so why create multiple copies of the same document.
+
+### Task 1: Updating your forked GitHub repo
+
+You will need to start reading these directions back at my
+`gvsu-sta631/activity01-course-tools` GitHub repo **and** have your
+forked `username/activity01-course-tools` GitHub repo handy. I recommend
+that you have my repo opened on one half of your screen and your repo
+opened on the other half. Read these directions first, then work through
+them.
+
+1.  At the top of your `username/activity01-course-tools` repo (above
+    the repo contents section), verify that you see a message that looks
+    something like:
+
+> This branch is X commits behind gvsu-sta631:main.
+
+2.  Click on the hyperlinked “X commits behind” portion of that message
+    to be taken to a **Comparing changes** page.
+3.  Verify that your drop-down menu options specify:
+    - base repository: username/activity01-course-tools
+    - base: main
+    - head repository: gvsu-sta631/activity01-course-tools
+    - compare: main
+4.  Also verify that you have a message directly below this that says:
+
+> ✓ Able to merge. These branches can be automatically merged.
+
+Flag me if you see something different.
+
+5.  Click on the green **Create pull request** button under this
+    previous message. Note you can look at the changes that I made, if
+    you so desire, by scrolling down. However, this is not necessary.
+6.  On the next page, provide a short descriptive message in the “Title”
+    box (e.g., “Adding Day 2 materials”). You can also provide a more
+    detailed message in the “Leave a comment” box if you choose.
+7.  Click on the green **Create pull request** button.
+8.  On the next screen which is titled the same thing as what you
+    provided in the “Title” box on the previous screen, you will be
+    presented with a bunch of information. If you scroll down a little,
+    you should see a green check mark with a message that specifies:
+
+> This branch has no conflicts with the base branch
+
+And you can click on the green **Merge pull request**.
+
+9.  You will be provided with with an opportunity to provide another
+    meaningful message (or accept the default message). Finally, click
+    on the green **Confirm merge** button. You can now work directly
+    from your `username/activity01-course-tools` repo.
+
+In summary, what you just did is pulled my changes into your repository.
+Git and GitHub refer to this as a “pull request” because you are asking
+to pull items into your repo.
+
+### Task 2: Authoring in RStudio
+
+In your `username/activity01-course-tools` repo, go into the
+`day02-rstudio-rmarkdown` subfolder and follow the tasks listed in the
+`README`. You will follow these directions for today’s activity of
+building your own Distill website!
+
+<!--
+
+## Day 3
+
+### Task 1: Exploring RStudio
 
 Based on your course histories at GVSU and being enrolled in our Data Science & Analytics program, I am assuming that you have experience with R and RStudio.
 Therefore, I will not spend much time introducing basic R usage (i.e., base R or foundational `{tidyverse}` packages, like `{ggplot2}` or `{dplyr}`).
