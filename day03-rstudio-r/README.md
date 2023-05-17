@@ -4,14 +4,19 @@ Day 3 - RStudio and R
 In this repository/directory you should see one item:
 
 - `README.md` - this document.
+- `activity01-slr.Rmd`
 
-<!-- This activity will walk you through practicing some of the GitHub steps to get more comfortable with this workflow.
-There are a lot of steps so I recommend that for each listed task you first read the directions, then complete work through the directions.
+This activity will hopefully serve as a re-introduction to foundational
+R programming processes and the statistical modeling method called
+*simple linear regression*. Note that I use the `{tidyverse}` R package
+when teaching as I believe this to be a consistent framework that aligns
+with how I (and other data professionals) think. You are welcome to use
+base R and our text, *ISL*, provides examples using base R and some
+different packages (i.e., `{MASS}` and `{ISLR2}`). I will do my best to
+support you if you choose to use base R, but my help might be more
+higher-level than being able to help you with specific functions.
 
-As I said in the syllabus, [Happy Git with R](http://happygitwithr.com/) is by far the most complete resource for setting up R, RStudio, Git, and GitHub on your personal machines.
-If you would like to set up R, RStudio, Git, and GitHub on your own machine, I would recommend you use this text.
-Luckily for us, Git is already installed on GVSU's RStudio Workbench (and of course R and RStudio are available here too) so we will only need to focus on getting our RStudio sessions to communicate with GitHub.
-
+<!--
 ## Task 1: Set up Git in RStudio
 
 We will be alternating between GitHub and RStudio throughout this activity.
@@ -103,68 +108,108 @@ Conveniently, `{usethis}` has a function for this!
   ```
 
 Note that anytime RStudio asks for your GitHub username and password, you need to provide your GitHub username and PAT.
+-->
 
-## Task 4: Clone GitHub repo
+## Task 1: Clone GitHub repo
 
-Now that RStudio and GitHub are connected, we can clone this repo (i.e., copy your GitHub repo to your RStudio session)!
+You connected RStudio and GitHub for Day 2 of this activity. If you are
+experiencing issues, get a hold of me or verify that you have
+succesfully set up RStudio and GitHub to communicate by redoing [this
+preparation](https://github.com/gvsu-sta518/preparation02).
 
-1. In RStudio, click on the <img src="../README-img/rproj-icon.png" alt="RStudio Project" width = "20"/> icon (the icon below the Edit drop-down menu).
-2. Click on **Version Control** on the *New Project Wizard* pop-up.
-3. Click on **Git** and you should be on a "Clone Git Repository" page.
-4. Back to your `activity01-course-tools` GitHub repo (you might need to go back a page), click on the green **Code** button near the top of the page.
-5. Verify that **HTTPS** is underlined in orange/red on the drop-down menu, then copy the URL provided.
-6. Back in RStudio, paste the URL in the "Repository URL" text field.
-7. The "Project directory name" text field should have automatically populated with `activity01-course-tools`. If yours did not, click into this box and press Ctrl/Cmd (this is usually an issue on Macs);
-8. In the "Create project as subdirectory of" field, click on **Browse...**. Create a **New Folder** called "STA 631", then within this folder, create a **New Folder** called "Activities", think click **Choose**.
-  Note that I am forcing you to use my opinionated file system management style.
-9. Click on **Create Project**.
+Now that RStudio and GitHub are communicating, we can clone your repo!
+In GitHub language, *cloning* means to make a copy of your GitHub repo
+on your local computer (i.e., your RStudio/RStudio Workbench session).
 
-Your screen should refresh and the **Files** pane should say that you are currently in your `activity01-course-tools` folder that currently has the same files and foldes as your GitHub repo.
-If you are asked for your GitHub credentials, provide your GitHub username and your PAT (not your password).
+![check-in](README-img/noun-magnifying-glass.png) **Check in**
+
+Answer each of these questions:
+
+- What does *forking* in GitHub mean? Hint, it is not the prank you
+  might have done in high school where you stuck a bunch of diningware
+  forks into someone’s front yard.
+- How do *forking* and *cloning* differ?
+
+Now, follow these directions to clone your GitHub repo:
+
+1.  In RStudio, click on the
+    <img src="../README-img/rproj-icon.png" alt="RStudio Project" width = "20"/>
+    icon (the icon below the Edit drop-down menu).
+2.  Click on **Version Control** on the *New Project Wizard* pop-up.
+3.  Click on **Git** and you should be on a “Clone Git Repository” page.
+4.  Back to your `activity01-course-tools` GitHub repo (you might need
+    to go back a page), click on the green **Code** button near the top
+    of the page.
+5.  Verify that **HTTPS** is underlined in orange/red on the drop-down
+    menu, then copy the URL provided.
+6.  Back in RStudio, paste the URL in the “Repository URL” text field.
+7.  The “Project directory name” text field should have automatically
+    populated with `activity01-course-tools`. If yours did not, click
+    into this box and press Ctrl/Cmd (this is usually an issue on Macs);
+8.  In the “Create project as subdirectory of” field, click on
+    **Browse…**. Create a **New Folder** called “STA 631”, then within
+    this folder, create a **New Folder** called “Activities”, think
+    click **Choose**. Note that I am forcing you to use my opinionated
+    file system management style.
+9.  Click on **Create Project**.
+
+Your screen should refresh and the **Files** pane should say that you
+are currently in your `activity01-course-tools` folder that currently
+has the same files and folders as your GitHub repo. If you are asked for
+your GitHub credentials, provide your GitHub username and your PAT (not
+your password).
 
 ## Task 5: Create, Edit, Commit, and Push
 
-Before we wrap-up, we will create a new file and see how to commit these changes and view the commit history.
+Before we wrap-up, we will create a new file (well, open a new-to-you
+file) and see how to commit these changes and view the commit history
+using RStudio’s graphical user interface.
 
-1. In RStudio, click on the <img src="../README-img/new-file-icon.png" alt="new file" width = "20"/> and select an R Script.
-2. Click on the <img src="../README-img/save-icon.png" alt="save" width = "20"/> icon to save this file. Name it `day02.R` (notice the capital "R" for the file type) and make sure it is in your `day02-rstudio` folder.
-3. Type the following code within in your R script:
-  
-  
-  ```r
-  # Here are some simple calculations
-  2 + 2
-  (2 * 3)^2
-  ```
-  
-4. Run each line to verify that you get the results you would expect, then save your file.
-5. In the **Git** pane (upper right-hand pane), check the box next to **all** items listed (under the "Staged" column) and click on <img src="../README-img/commit-icon.png" alt="commit" width = "20"/> **Commit**.
-6. In the pop-up, provide an informative commit message, like `Adding some calculations`, then click on **Commit**.
-7. In this same pop-up, switch from **Changes** to **History** (upper-left corner).
-  Reflect on how this way of looking through your commit history compares to GitHub.
-  Feel free to add more to your R script, save, and commit.
-8. To update GitHub with these changes, in the **Git** pane of RStudio click on <img src="../README-img/push-icon.png" alt="push" width = "20"/> **Push**.
-  When/if asked for your GitHub credentials, provide your GitHub username and GitHub PAT (not your password).
-  This should, hopefully, be the last time you need your GitHub PAT, but I again encourage you to keep this in a secure place.
-9. Go back to your `activity01-course-tools` GitHub repo and verify that your `day02.R` file is here.
-  Then, post the weblink to this document in the **General** channel of our Teams workspace (linked on Blackboard).
+1.  In the **Files** pane in RStudio (lower right-hand pane), navigate
+    to within the `day03-rstudio-r` folder and click on to open the
+    Rmarkdown file named `activity01-day03-slr.Rmd`.
+2.  Follow the directions in the **Introduction** section, then return
+    to these steps to finish the process of committing and pushing to
+    GitHub.
+3.  In the **Git** pane (upper right-hand pane), check the box next to
+    **all** items listed (under the “Staged” column) and click on
+    <img src="../README-img/commit-icon.png" alt="commit" width = "20"/>
+    **Commit**.
+4.  In the pop-up, provide an informative commit message, like
+    `Adding some calculations`, then click on **Commit**.
+5.  In this same pop-up, switch from **Changes** to **History**
+    (upper-left corner). Reflect on how this way of looking through your
+    commit history compares to GitHub. Feel free to add more to your R
+    script, save, and commit.
+6.  To update GitHub with these changes, in the **Git** pane of RStudio
+    click on
+    <img src="../README-img/push-icon.png" alt="push" width = "20"/>
+    **Push**. When/if asked for your GitHub credentials, provide your
+    GitHub username and GitHub PAT (not your password). This should,
+    hopefully, be the last time you need your GitHub PAT, but I again
+    encourage you to keep this in a secure place.
+7.  Go back to your `activity01-course-tools` GitHub repo and verify
+    that your `activity01-day03-slr.Rmd` AND `activity01-day03-slr.md`
+    files are here (you knitted your document, correct?)
 
-**You can now close the PAT page tab.**
+**You can now focus on the Rmarkdown document for the rest of today’s
+activity.**
 
 ## What is next?
 
 Now our workflow is:
 
-![Blackboard icon to fork icon to clone icon to edit icon to commit icon to push icon](../README-img/updated-workflow.svg)
+![Blackboard icon to fork icon to clone icon to edit icon to commit icon
+to push icon](../README-img/updated-workflow.svg)
 
 Or in words:
 
-1. I will post a link to an activity repo on Blackboard,
-2. You will make your own copy of (fork) this repo,
-3. You will create an RStudio Project and Clone this repo,
-3. You will edit and work on the activity, 
-3. You will commit your changes, and
-4. You will push your changes back to GitHub.
+1.  I will post a link to an activity repo on Blackboard,
+2.  You will make your own copy of (fork) this repo,
+3.  You will create an RStudio Project and Clone this repo,
+4.  You will edit and work on the activity,
+5.  You will commit your changes, and
+6.  You will push your changes back to GitHub.
 
-Next week we will begin working with data by exploring Simple Linear Regression models.
--->
+Next week we will expand our knowledge of Simple Linear Regression
+models.
