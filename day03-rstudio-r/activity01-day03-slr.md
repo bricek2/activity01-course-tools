@@ -105,28 +105,67 @@ text](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html).
 -   In the **Packages** pane of RStudio (same area as **Files**), check
     to see if `{tidyverse}` and `{tidymodels}` are installed. Be sure to
     check both your **User Library** and **System Library**.
-
 -   If either of these are not currently listed, type the following in
     your **Console** pane, replacing `package_name` with the appropriate
     name, and press Enter/Return afterwards.
 
-    ``` r
-    # Note: the "eval = FALSE" in the above line tells R not to evaluate this code
-    install.packages("package_name")
-    ```
+``` r
+ # Note: the "eval = FALSE" in the above line tells R not to evaluate this code
+ install.packages("package_name")
+```
 
 -   Once you have verified that both `{tidyverse}` and `{tidymodels}`
     are installed, load these packages in the R chunk below titled
     `setup`. That is, type the following:
 
-    ``` r
-    library(tidyverse)
-    library(tidymodels)
-    ```
+``` r
+ library(tidyverse)
+ library(tidymodels)
+```
+
+``` r
+update.packages("tidyverse")
+update.packages("tidymodels")
+```
 
 -   Run the `setup` code chunk and/or **knit**
     <img src="../README-img/knit-icon.png" alt="knit" width = "20"/>
     icon your Rmd document to verify that no errors occur.
+
+``` r
+library(tidyverse)
+```
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.2     ✔ readr     2.1.4
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+    ## ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+    ## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+    ## ✔ purrr     1.0.1     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+``` r
+library(tidymodels)
+```
+
+    ## ── Attaching packages ────────────────────────────────────── tidymodels 1.0.0 ──
+    ## ✔ broom        1.0.4     ✔ rsample      1.1.0
+    ## ✔ dials        1.0.0     ✔ tune         1.0.0
+    ## ✔ infer        1.0.3     ✔ workflows    1.0.0
+    ## ✔ modeldata    1.0.0     ✔ workflowsets 1.0.0
+    ## ✔ parsnip      1.0.1     ✔ yardstick    1.0.0
+    ## ✔ recipes      1.0.1     
+    ## ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+    ## ✖ scales::discard() masks purrr::discard()
+    ## ✖ dplyr::filter()   masks stats::filter()
+    ## ✖ recipes::fixed()  masks stringr::fixed()
+    ## ✖ dplyr::lag()      masks stats::lag()
+    ## ✖ yardstick::spec() masks readr::spec()
+    ## ✖ recipes::step()   masks stats::step()
+    ## • Dig deeper into tidy modeling with R at https://www.tmwr.org
 
 ![check-in](../README-img/noun-magnifying-glass.png) **Check in**
 

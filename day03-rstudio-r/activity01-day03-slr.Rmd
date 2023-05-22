@@ -73,23 +73,28 @@ If you would like to try the *ISLR* labs using these two packages instead of bas
   Be sure to check both your **User Library** and **System Library**.
 - If either of these are not currently listed, type the following in your **Console** pane, replacing `package_name` with the appropriate name, and  press Enter/Return afterwards.
   
-  ```{r install-example, eval = FALSE}
+ ```{r install-example, eval = FALSE}
   # Note: the "eval = FALSE" in the above line tells R not to evaluate this code
   install.packages("package_name")
-  ```
+ ```
   
 - Once you have verified that both `{tidyverse}` and `{tidymodels}` are installed, load these packages in the R chunk below titled `setup`.
   That is, type the following:
   
-  ```{r library-example, eval = FALSE}
+ ```{r library-example, eval = FALSE}
   library(tidyverse)
   library(tidymodels)
-  ```
-  
+ ```
+ ```{r Error: Latest Version Required, eval = FALSE}
+update.packages("tidyverse")
+update.packages("tidymodels")
+ ```
+ 
 - Run the `setup` code chunk and/or **knit** <img src="../README-img/knit-icon.png" alt="knit" width = "20"/> icon your Rmd document to verify that no errors occur.
 
 ```{r setup}
-
+library(tidyverse)
+library(tidymodels)
 ```
 
 ![check-in](../README-img/noun-magnifying-glass.png) **Check in**
