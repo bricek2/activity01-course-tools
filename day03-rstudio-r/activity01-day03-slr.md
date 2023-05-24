@@ -165,7 +165,7 @@ library(tidymodels)
     ## ✖ dplyr::lag()      masks stats::lag()
     ## ✖ yardstick::spec() masks readr::spec()
     ## ✖ recipes::step()   masks stats::step()
-    ## • Dig deeper into tidy modeling with R at https://www.tmwr.org
+    ## • Use suppressPackageStartupMessages() to eliminate package startup messages
 
 ![check-in](../README-img/noun-magnifying-glass.png) **Check in**
 
@@ -189,18 +189,76 @@ that reads in the above linked CSV file by doing the following:
 -   Assign this data set into a data frame named `hfi` (short for “Human
     Freedom Index”).
 
+``` r
+library(readr)
+hfi <- read_csv("https://www.openintro.org/data/csv/hfi.csv")
+```
+
+    ## Rows: 1458 Columns: 123
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr   (3): ISO_code, countries, region
+    ## dbl (120): year, pf_rol_procedural, pf_rol_civil, pf_rol_criminal, pf_rol, p...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+head(hfi)
+```
+
+    ## # A tibble: 6 × 123
+    ##    year ISO_code countries region pf_rol_procedural pf_rol_civil pf_rol_criminal
+    ##   <dbl> <chr>    <chr>     <chr>              <dbl>        <dbl>           <dbl>
+    ## 1  2016 ALB      Albania   Easte…              6.66         4.55            4.67
+    ## 2  2016 DZA      Algeria   Middl…             NA           NA              NA   
+    ## 3  2016 AGO      Angola    Sub-S…             NA           NA              NA   
+    ## 4  2016 ARG      Argentina Latin…              7.10         5.79            4.34
+    ## 5  2016 ARM      Armenia   Cauca…             NA           NA              NA   
+    ## 6  2016 AUS      Australia Ocean…              8.44         7.53            7.36
+    ## # ℹ 116 more variables: pf_rol <dbl>, pf_ss_homicide <dbl>,
+    ## #   pf_ss_disappearances_disap <dbl>, pf_ss_disappearances_violent <dbl>,
+    ## #   pf_ss_disappearances_organized <dbl>,
+    ## #   pf_ss_disappearances_fatalities <dbl>, pf_ss_disappearances_injuries <dbl>,
+    ## #   pf_ss_disappearances <dbl>, pf_ss_women_fgm <dbl>,
+    ## #   pf_ss_women_missing <dbl>, pf_ss_women_inheritance_widows <dbl>,
+    ## #   pf_ss_women_inheritance_daughters <dbl>, pf_ss_women_inheritance <dbl>, …
+
 After doing this and viewing the loaded data, answer the following
 questions:
 
 1.  What are the dimensions of the dataset? What does each row
     represent?
-
-The dataset spans a lot of years. We are only interested in data from
-year 2016. In the R code chunk below titled `hfi-2016`, type the code
-that does the following:
+    -   *There are 1458 rows and 123 columns.*
+    -   *Each row represents a unique country and year* The dataset
+        spans a lot of years. We are only interested in data from year
+        2016. In the R code chunk below titled `hfi-2016`, type the code
+        that does the following:
 
 -   Filter the data `hfi` data frame for year 2016, and
 -   Assigns the result to a data frame named `hfi_2016`.
+
+``` r
+hfi_2016 <- filter(hfi, year == 2016)
+head(hfi_2016)
+```
+
+    ## # A tibble: 6 × 123
+    ##    year ISO_code countries region pf_rol_procedural pf_rol_civil pf_rol_criminal
+    ##   <dbl> <chr>    <chr>     <chr>              <dbl>        <dbl>           <dbl>
+    ## 1  2016 ALB      Albania   Easte…              6.66         4.55            4.67
+    ## 2  2016 DZA      Algeria   Middl…             NA           NA              NA   
+    ## 3  2016 AGO      Angola    Sub-S…             NA           NA              NA   
+    ## 4  2016 ARG      Argentina Latin…              7.10         5.79            4.34
+    ## 5  2016 ARM      Armenia   Cauca…             NA           NA              NA   
+    ## 6  2016 AUS      Australia Ocean…              8.44         7.53            7.36
+    ## # ℹ 116 more variables: pf_rol <dbl>, pf_ss_homicide <dbl>,
+    ## #   pf_ss_disappearances_disap <dbl>, pf_ss_disappearances_violent <dbl>,
+    ## #   pf_ss_disappearances_organized <dbl>,
+    ## #   pf_ss_disappearances_fatalities <dbl>, pf_ss_disappearances_injuries <dbl>,
+    ## #   pf_ss_disappearances <dbl>, pf_ss_women_fgm <dbl>,
+    ## #   pf_ss_women_missing <dbl>, pf_ss_women_inheritance_widows <dbl>,
+    ## #   pf_ss_women_inheritance_daughters <dbl>, pf_ss_women_inheritance <dbl>, …
 
 ### 1. Identify our research question(s)
 
@@ -224,21 +282,90 @@ the following tasks.
     plot to display the distribution of the political pressures and
     controls on media content index, `pf_expression_control`?
 
+    -   *Histogram*
+    -   *Both plots should be histograms because there isn’t an extremly
+        large amount of data (scatter), and there aren’t multiple
+        categories (box plot)*
+
 -   In the R code chunk below titled `univariable-plots`, type the R
     code that displays this plot for `pf_score`.
 -   In the R code chunk below titled `univariable-plots`, type the R
     code that displays this plot for `pf_expression_control`.
 
+``` r
+pf_hist <- hist(hfi_2016$pf_score, xlab = "PF Score", main = "PF Score Histogram")
+```
+
+![](activity01-day03-slr_files/figure-gfm/distribution-plots-1.png)<!-- -->
+
+``` r
+pf_hist
+```
+
+    ## $breaks
+    ## [1]  2  3  4  5  6  7  8  9 10
+    ## 
+    ## $counts
+    ## [1]  2  3  7 27 44 37 25 17
+    ## 
+    ## $density
+    ## [1] 0.01234568 0.01851852 0.04320988 0.16666667 0.27160494 0.22839506 0.15432099
+    ## [8] 0.10493827
+    ## 
+    ## $mids
+    ## [1] 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5
+    ## 
+    ## $xname
+    ## [1] "hfi_2016$pf_score"
+    ## 
+    ## $equidist
+    ## [1] TRUE
+    ## 
+    ## attr(,"class")
+    ## [1] "histogram"
+
+``` r
+expression_control_hist <- ggplot(hfi_2016, aes(x=pf_expression_control)) +
+  geom_histogram(color = "darkblue", fill = "lightblue") +
+  labs(title = "Expression Control Distribution", x = "Expression Control")
+expression_control_hist
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](activity01-day03-slr_files/figure-gfm/distribution-plots-2.png)<!-- -->
+
 4.  Comment on each of these two distributions. Be sure to describe
     their centers, spread, shape, and any potential outliers.
-
+    -   *The PF Score distribution is skewed left and the center is
+        leaning toward the upper end of the distribution. The
+        distribution follows a normal distribution shape and there are
+        no obvious outliers based on this visual.*
+    -   *The Expression Control distribution indicates no major skew.
+        The center falls at about 5 with a strong peak or mode of
+        slightly less than 5. The shape of the distribution is normal.*
 5.  What type of plot would you use to display the relationship between
     the personal freedom score, `pf_score`, and the political pressures
     and controls on media content index,`pf_expression_control`?
+    -   *I typically lean towards scatter plots for showing the
+        relationship between two quantitative variables.*
 
 -   In the R code chunk below titled `relationship-plot`, plot this
     relationship using the variable `pf_expression_control` as the
     predictor/explanatory variable.
+
+``` r
+score_relationship <- ggplot(hfi_2016, aes(x=pf_expression_control, y=pf_score)) + 
+  geom_point(color = "darkblue", shape = 1) + 
+  geom_smooth(method=lm, color = "red") + 
+  labs(title = "Relationship Between Score & Expression Control", x = "Expression Control", y = "Score")
+
+score_relationship
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](activity01-day03-slr_files/figure-gfm/relationship-plot-1.png)<!-- -->
 
 4.  Does the relationship look linear? If you knew a country’s
     `pf_expression_control`, or its score out of 10, with 0 being the

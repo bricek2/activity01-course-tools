@@ -110,12 +110,18 @@ In the R code chunk below titled `load-data`, you will type the code that reads 
 
 - Rather than downloading this file, uploading to RStudio, then reading it in, explore how to load this file directly from the provided URL with `readr::read_csv` (`{readr}` is part of `{tidyverse}`).
 - Assign this data set into a data frame named `hfi` (short for "Human Freedom Index").
+```{r load-data}
+library(readr)
+hfi <- read_csv("https://www.openintro.org/data/csv/hfi.csv")
+head(hfi)
+```
 
 After doing this and viewing the loaded data, answer the following questions:
 
 1. What are the dimensions of the dataset?
   What does each row represent?
-
+    - *There are 1458 rows and 123 columns.* 
+    - *Each row represents a unique country and year*
 The dataset spans a lot of years.
 We are only interested in data from year 2016.
 In the R code chunk below titled `hfi-2016`, type the code that does the following:
@@ -124,7 +130,8 @@ In the R code chunk below titled `hfi-2016`, type the code that does the followi
 - Assigns the result to a data frame named `hfi_2016`.
 
 ```{r hfi-2016}
-
+hfi_2016 <- filter(hfi, year == 2016)
+head(hfi_2016)
 ```
 
 ### 1. Identify our research question(s)
@@ -142,33 +149,46 @@ Answer the following questions (use your markdown skills) and complete the follo
 2. What type of plot would you use to display the distribution of the personal freedom scores, `pf_score`? 
   Would this be the same type of plot to display the distribution of the political pressures and controls on media content index, `pf_expression_control`?
 
-
+    - *Histogram*
+    - *Both plots should be histograms because there isn't an extremly large amount of data (scatter), and there aren't multiple categories (box plot)*
 
 - In the R code chunk below titled `univariable-plots`, type the R code that displays this plot for `pf_score`.
 - In the R code chunk below titled `univariable-plots`, type the R code that displays this plot for `pf_expression_control`.
 
 ```{r distribution-plots}
+pf_hist <- hist(hfi_2016$pf_score, xlab = "PF Score", main = "PF Score Histogram")
+pf_hist
 
+expression_control_hist <- ggplot(hfi_2016, aes(x=pf_expression_control)) +
+  geom_histogram(color = "darkblue", fill = "lightblue") +
+  labs(title = "Expression Control Distribution", x = "Expression Control")
+expression_control_hist
 ```
 
 4. Comment on each of these two distributions. 
   Be sure to describe their centers, spread, shape, and any potential outliers.
-
+    - *The PF Score distribution is skewed left and the center is leaning toward the upper end of the distribution. The distribution follows a normal distribution shape and there are no obvious outliers based on this visual.*
+    - *The Expression Control distribution indicates no major skew. The center falls at about 5 with a strong peak or mode of slightly less than 5. The shape of the distribution is normal.*
 
 
 3. What type of plot would you use to display the relationship between the personal freedom score, `pf_score`, and the political pressures and controls on media content index,`pf_expression_control`?
-
+    - *I typically lean towards scatter plots for showing the relationship between two quantitative variables.*
 
 
 - In the R code chunk below titled `relationship-plot`, plot this relationship using the variable `pf_expression_control` as the predictor/explanatory variable.
 
 ```{r relationship-plot}
+score_relationship <- ggplot(hfi_2016, aes(x=pf_expression_control, y=pf_score)) + 
+  geom_point(color = "darkblue", shape = 1) + 
+  geom_smooth(method=lm, color = "red") + 
+  labs(title = "Relationship Between Score & Expression Control", x = "Expression Control", y = "Score")
 
+score_relationship
 ```
 
 4. Does the relationship look linear?
   If you knew a country's `pf_expression_control`, or its score out of 10, with 0 being the most, of political pressures and controls on media content, would you be comfortable using a linear model to predict the personal freedom score?
-
+    - *Yes, there is a strong linear relationship between Score and Expression Control. I would be comfortable to use a linear model for an estimate but there also appears to be a fan or cone shape. There is a larger spread for lower score and becomes more concentrated on the top.*
 #### Challenge
 
 For each plot and using your `{dplyr}` skills, obtain the appropriate numerical summary statistics and provide more detailed descriptions of these plots.
@@ -194,7 +214,7 @@ To begin, we will create a `{parsnip}` specification for a linear model.
 
 - In the code chunk below titled `parsnip-spec`, replace "verbatim" with "r" just before the code chunk title.
 
-```{verbatim parsnip-spec}
+```{r parsnip-spec}
 lm_spec <- linear_reg() %>%
   set_mode("regression") %>%
   set_engine("lm")
@@ -216,7 +236,7 @@ Look at your knitted document to see how this syntax appears.
 
 - In the code chunk below titled `fit-lm`, replace "verbatim" with "r" just before the code chunk title. 
 
-```{verbatim fit-lm}
+```{r fit-lm}
 slr_mod <- lm_spec %>% 
   fit(pf_score ~ pf_expression_control, data = hfi_2016)
 
@@ -228,13 +248,13 @@ The above code fits our SLR model, then provides a `tidy` parameter estimates ta
 5. Using the `tidy` output, update the below formula with the estimated parameters.
   That is, replace "intercept" and "slope" with the appropriate values
 
-$\hat{\texttt{pf\score}} = intercept + slope \times \texttt{pf\_expression\_control}$
+$\hat{\texttt{pf\score}} = 4.28 + .54 \times \texttt{pf\_expression\_control}$
 
 
 6. Interpret each of the estimated parameters from (5) in the context of this research question.
   That is, what do these values represent?
 
-
+    - *The intercept of 4.28 is what the score is when expression control is 0. The slope of .54 indicates that for every one increase in expression control, the score will increase by .54.*
 
 ### 4. Assess our model
 
@@ -249,7 +269,7 @@ We use `glance` from  `{broom}` (which is automatically loaded with `{tidymodels
 
 - In the code chunk below titled `glance-lm`, replace "verbatim" with "r" just before the code chunk title. 
 
-```{verbatim glance-mod}
+```{r glance-mod}
 glance(slr_mod)
 ```
 
@@ -257,12 +277,14 @@ After doing this and running the code, answer the following questions:
 
 7. What is the value of $R^2$ for this model?
 
+    - *.714*
 
 
 8. What does this value mean in the context of this model?
   Think about what would a "good" value of $R^2$ would be?
   Can/should this value be "perfect"?
 
+    - *71% of the variability in freedom scores can be explained by media expression control.*
 
 
 ### 5. Predict
@@ -277,7 +299,14 @@ Before we start predicting, you will first create a scatterplot with the least s
 - Next, add a layer to this (remember how `{ggplot2}` represents adding various data layers to plots) that shows a *smooth* line *geometry* (hint: explore `geom_smooth`).
 - In this *smooth* line *geometry* layer, be sure to specify the `method` as `"lm"` and do **not** display confidence intervals around your bands (hint: look at the help documentation for the `geom_smooth` layer).
 
+```{r lm-line}
+score_relationship <- ggplot(hfi_2016, aes(x=pf_expression_control, y=pf_score)) + 
+  geom_point(color = "darkblue", shape = 1) + 
+  geom_smooth(method=lm, color = "red") + 
+  labs(title = "Relationship Between Score & Expression Control", x = "Expression Control", y = "Score")
 
+score_relationship
+```
 
 
 
@@ -291,7 +320,7 @@ Answer the following question:
 9. If someone saw the least squares regression line from (5) and not the actual data, how would they predict a country's personal freedom school when their `pf_expression_control` is an index of 3?
   What should they predict?
 
-
+    - *Predict a freedom score of just under 6.*
 
 Now, we will check your math!
 
@@ -308,7 +337,7 @@ We can now use the `predict` function to obtain predictions for each of these in
 
 - In the code chunk below titled `predict`, replace "verbatim" with "r" just before the code chunk title. 
 
-```{verbatim predict}
+```{r predict}
 pred_df %>% 
   mutate(
     pred_value = predict(slr_mod, new_data = pred_df) %>% pull(.pred)
@@ -320,7 +349,7 @@ I encourage you to go through each line above and describe what that line is doi
 
 10. How did your by-hand calculation go?
 
-
+    - *Really good.*
 
 ### Model diagnostics
 
@@ -332,7 +361,7 @@ We can use `broom::augment` to calculate these.
 
 - In the code chunk below titled `augment`, replace "verbatim" with "r" just before the code chunk title. 
   
-```{verbatim augment}
+```{r augment}
 slr_aug <- augment(slr_mod)
 
 slr_aug
@@ -348,7 +377,7 @@ We should also verify this condition with a plot of the residuals vs. fitted (pr
 
 - In the code chunk below titled `fitted-residual`, replace "verbatim" with "r" just before the code chunk title. 
   
-```{verbatim fitted-residual}
+```{r fitted-residual}
 ggplot(data = slr_aug, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
