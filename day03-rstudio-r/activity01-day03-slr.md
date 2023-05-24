@@ -165,7 +165,7 @@ library(tidymodels)
     ## ✖ dplyr::lag()      masks stats::lag()
     ## ✖ yardstick::spec() masks readr::spec()
     ## ✖ recipes::step()   masks stats::step()
-    ## • Use suppressPackageStartupMessages() to eliminate package startup messages
+    ## • Use tidymodels_prefer() to resolve common conflicts.
 
 ![check-in](../README-img/noun-magnifying-glass.png) **Check in**
 
@@ -372,8 +372,11 @@ score_relationship
     most, of political pressures and controls on media content, would
     you be comfortable using a linear model to predict the personal
     freedom score?
-
-#### Challenge
+    -   *Yes, there is a strong linear relationship between Score and
+        Expression Control. I would be comfortable to use a linear model
+        for an estimate but there also appears to be a fan or cone
+        shape. There is a larger spread for lower score and becomes more
+        concentrated on the top.* \#\#\#\# Challenge
 
 For each plot and using your `{dplyr}` skills, obtain the appropriate
 numerical summary statistics and provide more detailed descriptions of
@@ -400,13 +403,17 @@ To begin, we will create a `{parsnip}` specification for a linear model.
 -   In the code chunk below titled `parsnip-spec`, replace “verbatim”
     with “r” just before the code chunk title.
 
-``` default
+``` r
 lm_spec <- linear_reg() %>%
   set_mode("regression") %>%
   set_engine("lm")
 
 lm_spec
 ```
+
+    ## Linear Regression Model Specification (regression)
+    ## 
+    ## Computational engine: lm
 
 Note that the `set_mode("regression")` is really unnecessary/redundant
 as linear models (`"lm"`) can only be regression models. It is better to
@@ -427,12 +434,18 @@ knitted document to see how this syntax appears.
 -   In the code chunk below titled `fit-lm`, replace “verbatim” with “r”
     just before the code chunk title.
 
-``` default
+``` r
 slr_mod <- lm_spec %>% 
   fit(pf_score ~ pf_expression_control, data = hfi_2016)
 
 tidy(slr_mod)
 ```
+
+    ## # A tibble: 2 × 5
+    ##   term                  estimate std.error statistic  p.value
+    ##   <chr>                    <dbl>     <dbl>     <dbl>    <dbl>
+    ## 1 (Intercept)              4.28     0.149       28.8 4.23e-65
+    ## 2 pf_expression_control    0.542    0.0271      20.0 2.31e-45
 
 The above code fits our SLR model, then provides a `tidy` parameter
 estimates table.
@@ -441,10 +454,14 @@ estimates table.
     parameters. That is, replace “intercept” and “slope” with the
     appropriate values
 
-$\hat{\texttt{pf\score}} = intercept + slope \times \texttt{pf\_expression\_control}$
+$\hat{\texttt{pf\score}} = 4.28 + .54 \times \texttt{pf\_expression\_control}$
 
 6.  Interpret each of the estimated parameters from (5) in the context
     of this research question. That is, what do these values represent?
+
+    -   *The intercept of 4.28 is what the score is when expression
+        control is 0. The slope of .54 indicates that for every one
+        increase in expression control, the score will increase by .54.*
 
 ### 4. Assess our model
 
@@ -468,17 +485,28 @@ is also where `tidy` is from) to access this information.
 -   In the code chunk below titled `glance-lm`, replace “verbatim” with
     “r” just before the code chunk title.
 
-``` default
+``` r
 glance(slr_mod)
 ```
+
+    ## # A tibble: 1 × 12
+    ##   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+    ##       <dbl>         <dbl> <dbl>     <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>
+    ## 1     0.714         0.712 0.799      400. 2.31e-45     1  -193.  391.  400.
+    ## # ℹ 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 
 After doing this and running the code, answer the following questions:
 
 7.  What is the value of $R^2$ for this model?
 
+    -   *.714*
+
 8.  What does this value mean in the context of this model? Think about
     what would a “good” value of $R^2$ would be? Can/should this value
     be “perfect”?
+
+    -   *71% of the variability in freedom scores can be explained by
+        media expression control.*
 
 ### 5. Predict
 
@@ -502,6 +530,19 @@ least squares line for `slr_mod` laid on top of the points.
     around your bands (hint: look at the help documentation for the
     `geom_smooth` layer).
 
+``` r
+score_relationship <- ggplot(hfi_2016, aes(x=pf_expression_control, y=pf_score)) + 
+  geom_point(color = "darkblue", shape = 1) + 
+  geom_smooth(method=lm, color = "red") + 
+  labs(title = "Relationship Between Score & Expression Control", x = "Expression Control", y = "Score")
+
+score_relationship
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](activity01-day03-slr_files/figure-gfm/lm-line-1.png)<!-- -->
+
 This line can be used to predict $y$ at any value of $x$. When
 predictions are made for values of $x$ that are beyond the range of the
 observed data, it is referred to as *extrapolation* and is not usually
@@ -514,6 +555,8 @@ Answer the following question:
     the actual data, how would they predict a country’s personal freedom
     school when their `pf_expression_control` is an index of 3? What
     should they predict?
+
+    -   *Predict a freedom score of just under 6.*
 
 Now, we will check your math!
 
@@ -534,18 +577,35 @@ these indices:
 -   In the code chunk below titled `predict`, replace “verbatim” with
     “r” just before the code chunk title.
 
-``` default
+``` r
 pred_df %>% 
   mutate(
     pred_value = predict(slr_mod, new_data = pred_df) %>% pull(.pred)
   )
 ```
 
+    ## # A tibble: 11 × 2
+    ##    pf_expression_control pred_value
+    ##                    <int>      <dbl>
+    ##  1                     0       4.28
+    ##  2                     1       4.83
+    ##  3                     2       5.37
+    ##  4                     3       5.91
+    ##  5                     4       6.45
+    ##  6                     5       6.99
+    ##  7                     6       7.53
+    ##  8                     7       8.08
+    ##  9                     8       8.62
+    ## 10                     9       9.16
+    ## 11                    10       9.70
+
 Note that I am making it easier to see what our *x* value and
 *predicted* values are. I encourage you to go through each line above
 and describe what that line is doing.
 
 10. How did your by-hand calculation go?
+
+    -   *Really good.*
 
 ### Model diagnostics
 

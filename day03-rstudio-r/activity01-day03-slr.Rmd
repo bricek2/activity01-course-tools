@@ -360,8 +360,8 @@ In order to do these checks we need access to the fitted (predicted) values and 
 We can use `broom::augment` to calculate these.
 
 - In the code chunk below titled `augment`, replace "verbatim" with "r" just before the code chunk title. 
-  
-```{r augment}
+ 
+```{verbatim augment}
 slr_aug <- augment(slr_mod)
 
 slr_aug
@@ -377,7 +377,7 @@ We should also verify this condition with a plot of the residuals vs. fitted (pr
 
 - In the code chunk below titled `fitted-residual`, replace "verbatim" with "r" just before the code chunk title. 
   
-```{r fitted-residual}
+```{verbatim fitted-residual}
 ggplot(data = slr_aug, aes(x = .fitted, y = .resid)) +
   geom_point() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
